@@ -15,6 +15,6 @@ public interface CasesRepo extends JpaRepository<Cases, Integer> {
 
     public List<Cases> findAllByStateAndDate(String state, LocalDate date);
 
-    @Query("select t from ConfirmedStat t where t.state in (:states) and t.date = :date")
+    @Query("select t from Cases t where t.state in (:states) and t.date = :date")
     public List<Cases> findAllByStatesAndDate(List<String> states, LocalDate date);
 }
