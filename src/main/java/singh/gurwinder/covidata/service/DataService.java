@@ -32,9 +32,9 @@ public class DataService {
 
     public DataInfo getByState(String state) {
         var info = new DataInfo();
-        info.setCases(casesRepo.findAllByState(state));
-        info.setTestings(testingRepo.findAllByState(state));
-        info.setVaccinations(vaccinationRepo.findAllByState(state));
+        info.setCases(casesRepo.findAllByStateOrderByDateAsc(state));
+        info.setTestings(testingRepo.findAllByStateOrderByDateAsc(state));
+        info.setVaccinations(vaccinationRepo.findAllByStateOrderByDateAsc(state));
         return info;
     }
 

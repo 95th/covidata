@@ -11,7 +11,7 @@ import singh.gurwinder.covidata.entity.Testing;
 public interface TestingRepo extends JpaRepository<Testing, Integer> {
     public List<Testing> findAllByDate(LocalDate date);
 
-    public List<Testing> findAllByState(String state);
+    public List<Testing> findAllByStateOrderByDateAsc(String state);
 
     public List<Testing> findAllByStateAndDate(String state, LocalDate date);
 

@@ -11,7 +11,7 @@ import singh.gurwinder.covidata.entity.Cases;
 public interface CasesRepo extends JpaRepository<Cases, Integer> {
     public List<Cases> findAllByDate(LocalDate date);
 
-    public List<Cases> findAllByState(String state);
+    public List<Cases> findAllByStateOrderByDateAsc(String state);
 
     public List<Cases> findAllByStateAndDate(String state, LocalDate date);
 
