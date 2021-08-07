@@ -34,7 +34,7 @@ public class DataService {
         var info = new DataInfo();
         info.setCases(casesRepo.findAllByStateOrderByDateAsc(state));
         info.setTestings(testingRepo.findAllByStateOrderByDateAsc(state));
-        info.setVaccinations(vaccinationRepo.findAllByStateOrderByDateAsc(state));
+        info.setVaccinations(vaccinationRepo.findAllByStateOrderByUpdatedOnAsc(state));
         return info;
     }
 

@@ -11,7 +11,7 @@ import singh.gurwinder.covidata.entity.Vaccination;
 public interface VaccinationRepo extends JpaRepository<Vaccination, Integer> {
     public List<Vaccination> findAllByUpdatedOn(LocalDate date);
 
-    public List<Vaccination> findAllByStateOrderByDateAsc(String state);
+    public List<Vaccination> findAllByStateOrderByUpdatedOnAsc(String state);
 
     public List<Vaccination> findAllByStateAndUpdatedOn(String state, LocalDate date);
 
