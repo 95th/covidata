@@ -21,26 +21,26 @@ public class DataController {
     }
 
     @GetMapping(path = "Get_date_info", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataInfo findByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public DataInfo findByDate(@RequestParam("Date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return service.getByDate(date);
     }
 
     @GetMapping(path = "Get_state_info", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataInfo findByState(@RequestParam("state") String state) {
+    public DataInfo findByState(@RequestParam("State_name") String state) {
         return service.getByState(state);
     }
 
     @GetMapping(path = "Pinpoint_state", produces = MediaType.APPLICATION_JSON_VALUE)
     public DataInfo findByStateAndDate(
-            @RequestParam("state") String state,
-            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            @RequestParam("State_name") String state,
+            @RequestParam("Date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return service.getByStateAndDate(state, date);
     }
 
     @GetMapping(path = "Pinpoint_info", produces = MediaType.APPLICATION_JSON_VALUE)
     public DataInfo findByStateAndDate(
-            @RequestParam("state") List<String> state,
-            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            @RequestParam("State_name") List<String> state,
+            @RequestParam("Date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return service.getByStatesAndDate(state, date);
     }
 }
