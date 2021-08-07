@@ -13,9 +13,9 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "covid_confirmed_stat", indexes = @Index(name = "idx1_covid_confirmed_stat", columnList = "state, date"))
+@Table(name = "covid_cases", indexes = @Index(name = "idx1_covid_cases", columnList = "state, date"))
 @Data
-public class ConfirmedStat {
+public class Cases {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -20,10 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import singh.gurwinder.covidata.entity.ConfirmedStat;
+import singh.gurwinder.covidata.entity.Cases;
 import singh.gurwinder.covidata.entity.Testing;
 import singh.gurwinder.covidata.entity.Vaccination;
-import singh.gurwinder.covidata.repo.ConfirmedStatRepo;
+import singh.gurwinder.covidata.repo.CasesRepo;
 import singh.gurwinder.covidata.repo.TestingRepo;
 import singh.gurwinder.covidata.repo.VaccinationRepo;
 
@@ -32,7 +32,7 @@ public class DataLoad {
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ISO_DATE;
     private final DateTimeFormatter dateFormatDDMMYYYY = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mm a");
-    private final ConfirmedStatRepo confirmedStatRepo;
+    private final CasesRepo casesRepo;
     private final TestingRepo testingRepo;
     private final VaccinationRepo vaccinationRepo;
 
@@ -40,22 +40,25 @@ public class DataLoad {
     private String dataPath;
 
     @Autowired
-    public DataLoad(ConfirmedStatRepo confirmedStatRepo, TestingRepo testingRepo, VaccinationRepo vaccinationRepo) {
-        this.confirmedStatRepo = confirmedStatRepo;
+    public DataLoad(CasesRepo casesRepo, TestingRepo testingRepo, VaccinationRepo vaccinationRepo) {
+        this.casesRepo = casesRepo;
         this.testingRepo = testingRepo;
         this.vaccinationRepo = vaccinationRepo;
     }
 
     @PostConstruct
     public void loadData() throws IOException, CsvValidationException {
-        loadFile("covid_19_india.csv", this::parseConfirmedStat, confirmedStatRepo::saveAll);
+        loadFile("covid_19_india.csv", this::parseConfirmedStat, casesRepo::saveAll);
         loadFile("StatewiseTestingDetails.csv", this::parseTesting, testingRepo::saveAll);
         loadFile("covid_vaccine_statewise.csv", this::parseVaccination, vaccinationRepo::saveAll);
     }
 
-    private <T> void loadFile(String fileName, Function<String[], T> parseFunction, Consumer<List<T>> saveFunction)
-            throws IOException, CsvValidationException {
-        try (var reader = Files.newBufferedReader(Paths.get(dataPath, fileName)); var csv = new CSVReader(reader)) {
+    private <T> void loadFile(
+            String fileName,
+            Function<String[], T> parseFunction,
+            Consumer<List<T>> saveFunction) throws IOException, CsvValidationException {
+        try (var reader = Files.newBufferedReader(Paths.get(dataPath, fileName));
+             var csv = new CSVReader(reader)) {
             // Skip the header
             csv.skip(1);
 
@@ -79,8 +82,8 @@ public class DataLoad {
         }
     }
 
-    private ConfirmedStat parseConfirmedStat(String[] out) {
-        var c = new ConfirmedStat();
+    private Cases parseConfirmedStat(String[] out) {
+        var c = new Cases();
         c.setDate(LocalDate.parse(out[1], dateFormat));
         c.setTime(LocalTime.parse(out[2], timeFormat));
         c.setState(out[3]);
